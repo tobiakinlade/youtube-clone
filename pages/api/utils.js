@@ -6,6 +6,7 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.end()
 
   if (req.body.task === 'generate_content') {
+    //create 10 users
     let usersCount = 0
 
     while (usersCount < 10) {
@@ -27,7 +28,6 @@ export default async function handler(req, res) {
 
     const videoURL =
       'https://tobi-bootcamp.s3.eu-west-2.amazonaws.com/SampleVideo_1280x720_5mb.mp4'
-
     const thumbnailURL =
       'https://tobi-bootcamp.s3.eu-west-2.amazonaws.com/animals.jpeg'
 
@@ -38,11 +38,10 @@ export default async function handler(req, res) {
       return users[randomIndex]
     }
 
-    // create 20 videos
+    //create 20 videos, randomly assigned to users
+    let videosCount = 0
 
-    let videoCount = 0
-
-    while (videoCount < 20) {
+    while (videosCount < 20) {
       await prisma.video.create({
         data: {
           title: faker.lorem.words(),
@@ -56,8 +55,8 @@ export default async function handler(req, res) {
           },
         },
       })
+      videosCount++
     }
-    videoCount++
   }
 
   if (req.body.task === 'clean_database') {
