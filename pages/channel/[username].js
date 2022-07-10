@@ -4,6 +4,7 @@ import Link from 'next/link'
 import React from 'react'
 import Video from 'components/Video'
 import Videos from 'components/Videos'
+import Heading from 'components/Heading'
 
 export default function Channel({ user, videos }) {
   if (!user) {
@@ -11,13 +12,7 @@ export default function Channel({ user, videos }) {
   }
   return (
     <>
-      <header className='h-14 flex pt-5 px-5 pb-2'>
-        <Link href={`/`}>
-          <a className='underline'>Home</a>
-        </Link>
-
-        <div className='grow'></div>
-      </header>
+      <Heading />
 
       <div>
         <div className='flex justify-between'>
