@@ -24,6 +24,17 @@ export default function Heading() {
       </div>
 
       <div className='grow ml-10 -mt-1'></div>
+      {session && (
+        <Link href={`/channel/${session.user.username}`}>
+          <a className='flex'>
+            <img
+              className='h-8 w-8 mr-2 mb-2 -mt-1 rounded-full'
+              src={session.user.image}
+            />
+            <p className='mr-3'>{session.user.username}</p>
+          </a>
+        </Link>
+      )}
 
       <a
         href={session ? '/api/auth/signout' : '/api/auth/signin'}

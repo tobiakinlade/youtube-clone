@@ -1,17 +1,16 @@
-import { useSession } from 'next-auth/react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import { useSession } from 'next-auth/react'
 
 export default function Setup() {
   const router = useRouter()
   const { data: session, status } = useSession()
+  const loading = status === 'loading'
 
   const [name, setName] = useState('')
   const [username, setUsername] = useState('')
   const [image, setImage] = useState(null)
   const [imageURL, setImageURL] = useState(null)
-
-  const loading = status === 'loading'
 
   if (!session || !session.user) return null
   if (loading) return null
@@ -19,10 +18,10 @@ export default function Setup() {
   if (!loading && session.user.name) {
     router.push('/')
   }
+
   return (
     <form
-      className='mt-10
-      ml-20'
+      className='mt-10 ml-20'
       onSubmit={async (e) => {
         e.preventDefault()
 
@@ -46,8 +45,8 @@ export default function Setup() {
         <input
           type='text'
           name='name'
-          className='border p-1 text-black'
           onChange={(e) => setName(e.target.value)}
+          className='border p-1 text-black'
           required
         />
       </div>
@@ -61,16 +60,15 @@ export default function Setup() {
           required
         />
       </div>
-      <div className='text-sm text-gray-600'>
+      <div className='text-sm text-gray-600 '>
         <label className='relative font-medium cursor-pointer underline my-3 block'>
-          {!imageURL && <p>Avatar</p>}
+          {!imageURL && <p className=''>Avatar</p>}
           <img src={imageURL} className='w-20 h-20' />
           <input
-            type='file'
             name='image'
+            type='file'
             accept='image/*'
             className='hidden'
-            required
             onChange={(event) => {
               if (event.target.files && event.target.files[0]) {
                 if (event.target.files[0].size > 3072000) {
