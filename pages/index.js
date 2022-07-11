@@ -2,10 +2,13 @@ import Heading from 'components/Heading'
 import Videos from 'components/Videos'
 import { getVideos } from 'lib/data'
 import prisma from 'lib/prisma'
-import Head from 'next/head'
+import LoadMore from 'components/LoadMore'
+import { useState } from 'react'
+import { amount } from 'lib/config'
 
-export default function Home({ videos }) {
-  // console.log(videos)
+export default function Home({ initialVideos }) {
+  const [videos, setVideos] = useState(initialVideos)
+  const [reachedEnd, setReachedEnd] = useState(initialVideos.length < amount)
   return (
     <div>
       <Heading />
@@ -18,6 +21,13 @@ export default function Home({ videos }) {
       </header>
       {videos.length === 0 && <p>No video found</p>}
       <Videos videos={videos} />
+      {!reachedEnd && (
+        <LoadMore
+          videos={videos}
+          setVideos={setVideos}
+          setReachedEnd={setReachedEnd}
+        />
+      )}
     </div>
   )
 }
@@ -28,7 +38,7 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      videos,
+      initialVideos: videos,
     },
   }
 }
