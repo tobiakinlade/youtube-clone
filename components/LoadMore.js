@@ -1,4 +1,4 @@
-import React from 'react'
+import { amount } from 'lib/config'
 
 export default function LoadMore({ videos, setVideos, setReachedEnd, author }) {
   return (
