@@ -1,5 +1,5 @@
 import prisma from 'lib/prisma'
-import { getSubscribersCount, getUser, getVideos } from 'lib/data'
+import { getSubscribersCount, getUser, getVideos, isSubscribed } from 'lib/data'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import Video from 'components/Video'
@@ -9,8 +9,14 @@ import { amount } from 'lib/config'
 import LoadMore from 'components/LoadMore'
 import { useSession } from 'next-auth/react'
 import SubscribedButton from 'components/SubscribedButton'
+import { getSession } from 'next-auth/react'
 
-export default function Channel({ user, initialVideos, subscribers }) {
+export default function Channel({
+  user,
+  initialVideos,
+  subscribers,
+  subscribed,
+}) {
   console.log(subscribers)
   const [videos, setVideos] = useState(initialVideos)
   const [reachedEnd, setReachedEnd] = useState(initialVideos.length < amount)
@@ -49,7 +55,7 @@ export default function Channel({ user, initialVideos, subscribers }) {
             {session && user.id === session.user.id ? (
               <></>
             ) : (
-              <SubscribedButton user={user} />
+              <SubscribedButton user={user} subscribed={subscribed} />
             )}
           </div>
         </div>
@@ -77,11 +83,18 @@ export async function getServerSideProps(context) {
   videos = JSON.parse(JSON.stringify(videos))
 
   const subscribers = await getSubscribersCount(context.params.username, prisma)
+
+  const session = await getSession(context)
+  let subscribed = null
+  if (session) {
+    subscribed = await isSubscribed(session.user.username, user.id, prisma)
+  }
   return {
     props: {
       user,
       initialVideos: videos,
       subscribers,
+      subscribed,
     },
   }
 }
