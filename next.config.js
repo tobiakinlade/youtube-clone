@@ -6,6 +6,7 @@ const nextConfig = {
       'localhost',
       'tobi-bootcamp.s3.eu-west-2.amazonaws.com',
       'tobi-bootcamp.s3.eu-west-2.amazonaws.com',
+      'tobi-bootcamp.s3.amazonaws.com',
     ],
   },
 }
