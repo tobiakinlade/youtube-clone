@@ -24,6 +24,19 @@ export default function Heading() {
       </div>
 
       <div className='grow ml-10 -mt-1'></div>
+
+      {session &&
+        (router.asPath === '/subscriptions' ? (
+          <a className='flex'>
+            <p className='mr-3 font-bold'>Subscriptions</p>
+          </a>
+        ) : (
+          <Link href={`/subscriptions`}>
+            <a className='flex'>
+              <p className='mr-3 underline'>Subscriptions</p>
+            </a>
+          </Link>
+        ))}
       {session && (
         <Link href={`/channel/${session.user.username}`}>
           <a className='flex'>

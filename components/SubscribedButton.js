@@ -26,12 +26,12 @@ export default function SubscribedButton({ user, subscribed }) {
             router.reload(window.location.pathname)
           }}
           onMouseMove={() => {
-            setSubscribedButtonColor('red')
             setSubcribedButtonText('Unsubscribe')
+            setSubscribedButtonColor('red')
           }}
           onMouseOut={() => {
+            setSubcribedButtonText('Subscribed')
             setSubscribedButtonColor('green')
-            setSubcribedButtonText('Subscribe')
           }}
         >
           {subcribedButtonText}
