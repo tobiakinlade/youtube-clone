@@ -1,11 +1,10 @@
-import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 
 export default function SubscribedButton({ user, subscribed }) {
   const router = useRouter()
-  console.log(subscribed)
 
-  const [subcribedButtonText, setSubcribedButtonText] = useState('Subscribed')
+  const [subscribedButtonText, setSubscribedButtonText] = useState('Subscribed')
   const [subscribedButtonColor, setSubscribedButtonColor] = useState('green')
 
   return (
@@ -23,21 +22,23 @@ export default function SubscribedButton({ user, subscribed }) {
               },
               method: 'POST',
             })
+
             router.reload(window.location.pathname)
           }}
-          onMouseMove={() => {
-            setSubcribedButtonText('Unsubscribe')
+          onMouseOver={() => {
+            setSubscribedButtonText('Unsubscribe')
             setSubscribedButtonColor('red')
           }}
           onMouseOut={() => {
-            setSubcribedButtonText('Subscribed')
+            setSubscribedButtonText('Subscribed')
             setSubscribedButtonColor('green')
           }}
         >
-          {subcribedButtonText}
+          {subscribedButtonText}
         </button>
       ) : (
         <button
+          className=' bg-red-500 px-3 py-2  rounded-md'
           onClick={async () => {
             await fetch('/api/subscribe', {
               body: JSON.stringify({
@@ -48,9 +49,9 @@ export default function SubscribedButton({ user, subscribed }) {
               },
               method: 'POST',
             })
+
             router.reload(window.location.pathname)
           }}
-          className='bg-red-500 px-3 py-2 rounded-md'
         >
           Subscribe
         </button>
